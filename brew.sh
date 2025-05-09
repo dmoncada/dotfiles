@@ -123,6 +123,7 @@ brew install --cask chromium
 # brew install --cask dotnet-sdk
 # brew --cask install duet # Not sure I need this anymore...
 brew install --cask font-cascadia-code
+brew install --cask git-credential-manager
 # brew install --cask lulu
 # brew install --cask iterm2
 brew install --cask itsycal
