@@ -1,7 +1,7 @@
 # GNU make manual.
 # https://www.gnu.org/software/make/manual/make.html
 
-.PHONY all macos install source
+.PHONY: all macos install source
 
 all: macos install source
 
@@ -12,7 +12,8 @@ macos:
 install:
 	@rsync \
 	-avh \
-	--exclude ".git/" \
+	--exclude ".git" \
+	--exclude ".gitignore" \
 	--exclude "brew.sh" \
 	--exclude "macos.sh" \
 	--exclude "Makefile" \

@@ -31,8 +31,13 @@ make_prompt()
   prompt+="\[$BLUE\] \W"
 
   if git rev-parse --is-inside-work-tree &> /dev/null ; then
+    ref=$(git rev-parse --abbrev-ref HEAD)
+    if [ "$ref" = "HEAD" ] ; then
+      ref=$(git rev-parse --short HEAD)
+    fi
+
     prompt+="\[$RESET\] on"
-    prompt+="\[$YELLOW\] $(git rev-parse --short HEAD)"
+    prompt+="\[$YELLOW\] $ref"
   fi
 
   prompt+="\[$RESET\]"
