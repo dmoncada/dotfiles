@@ -14,17 +14,16 @@ make_prompt()
   local WHITE="\e[0;37m"
 
   local prompt=""
-  #local python_exe=$(which python3)
+  local python_exe=$(which python3)
 
-  ## Is the active `python3` a venv executable:
-  #if [[ ( ! -z $VIRTUAL_ENV ) && ( $python_exe =~ ^"$VIRTUAL_ENV" ) ]] ; then
-  #  local envdir=$(basename $(dirname $VIRTUAL_ENV))
-  #  prompt+="\[$GREEN\](venv: $envdir) "
+  # Is the active `python3` a venv executable:
+  if [ -n "$VIRTUAL_ENV" ] && echo $python_exe | grep -q "^$VIRTUAL_ENV" ; then
+    prompt+="\[$GREEN\](venv: $VIRTUAL_ENV_PROMPT) "
 
-  ## Is the active `python3` a conda executable?
-  #elif [[ ( ! -z $CONDA_PREFIX ) && ( $python_exe =~ ^"$CONDA_PREFIX" ) ]] ; then
-  #  prompt+="\[$GREEN\](conda: $CONDA_DEFAULT_ENV) "
-  #fi
+  # Is the active `python3` a conda executable?
+  elif [ -n "$CONDA_PREFIX" ] && echo $python_exe | grep -q "^$CONDA_PREFIX" ; then
+    prompt+="\[$GREEN\](conda: $CONDA_DEFAULT_ENV) "
+  fi
 
   prompt+="\[$MAGENTA\]\u"
   prompt+="\[$RESET\] in"

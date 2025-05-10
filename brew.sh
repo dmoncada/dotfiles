@@ -130,7 +130,7 @@ brew install --cask itsycal
 # brew install --cask microsoft-edge
 # brew install --cask microsoft-office
 # brew install --cask microsoft-teams
-# brew install --cask miniconda
+brew install --cask miniconda
 brew install --cask monitorcontrol
 # brew install --cask mono-mdk
 # brew install --cask pluralsight
