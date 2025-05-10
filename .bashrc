@@ -7,11 +7,6 @@ unset file
 # Load cargo.
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
-# Load miniconda.
-if which -s conda ; then
-  eval "$(conda "shell.$(basename "${SHELL}")" hook)"
-fi
-
 # Override default Unix commands with their GNU counterparts (homebrew).
 path_prepend "/usr/local/opt/coreutils/libexec/gnubin"
 path_prepend "/usr/local/opt/findutils/libexec/gnubin"

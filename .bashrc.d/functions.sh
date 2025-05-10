@@ -81,6 +81,22 @@ _git_wrap() {
 }
 alias git=_git_wrap
 
+_conda_wrap() {
+  CONDA_BIN=$(which conda)
+
+  if [ ! -n "$CONDA_BIN" ] ; then
+    >&2 echo "${FUNCNAME[0]}: conda: command not found."
+    return 1
+
+  elif [ ! -n "$CONDA_DEFAULT_ENV" ] ; then
+    eval "$("$CONDA_BIN" "shell.$(basename "${SHELL}")" hook)"
+
+  else
+    $CONDA_BIN "$@"
+  fi
+}
+alias conda=_conda_wrap
+
 help() {
   "$@" --help 2>&1 | _bat --plain --language=help
 }
