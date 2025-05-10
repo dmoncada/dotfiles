@@ -42,114 +42,79 @@ else # install and diagnose.
 
   echo "${NAME}: diagnosing homebrew ..."
   brew doctor
-
-  # echo "${NAME}: tapping formulae repositories ..."
-  # brew tap homebrew/bundle
-  # brew tap homebrew/cask
-  # brew tap homebrew/cask-drivers # For DisplayLink; update 2024-08-03: deprecated!
-  # brew tap homebrew/cask-versions # Update 2024-08-03: deprecated!
-  # brew tap homebrew/core
-  # brew tap mongodb/brew # For mongoDB Community Edition.
-  # brew tap microsoft/git # For git-credential-manager-core.
 fi
 
 ################################################################################
 # Formulae.
 ################################################################################
 
-BREW_PREFIX="$(brew --prefix)"
+echo "${NAME}: installing formulae ..."
 
-brew install bash # Newer version, keg-only.
+formulae=(
+bash
+coreutils
+diffutils
+findutils
+make
+bat
+git
+jq
+"python@3.13"
+vim
+wget
+)
+
+declare -A installed_formulae
+while read -r name version ; do
+  installed_formulae["$name"]="$version"
+done <<< "$(brew list --version --formula)"
+
+for formula in "${formulae[@]}" ; do
+  if [[ ! -v installed_formulae[$formula] ]] ; then
+    brew install "$formula"
+  fi
+done
+
+BREW_PREFIX="$(brew --prefix)"
 if [ "$SHELL" != "${BREW_PREFIX}/bin/bash" ] ; then
   echo "${NAME}: changing shell: $SHELL -> ${BREW_PREFIX}/bin/bash ..."
   echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
   chsh -s "${BREW_PREFIX}/bin/bash"
 fi
 
-# GNU software.
-brew install coreutils # Newer version, keg-only.
-brew install diffutils
-brew install findutils
-# brew install gawk
-# brew install gnu-sed
-# brew install grep # --with-default-names
-# brew install gzip
-brew install make # Newer version, keg-only.
-
-# Misc. formulae.
-# brew install azure-cli
-brew install bat
-# brew install cmake
-# brew install ctags
-# brew install curl # Newer version than system curl, keg-only.
-# brew install dos2unix unix2dos
-# brew install doxygen
-# brew install fzf && "$(brew --prefix)/opt/fzf/install"
-brew install git # Newer version than system git.
-# brew install git-lfs
-# brew install go
-brew install jq
-# brew install llvm # Contains newer version than system clang/clang++. For YCM.
-# brew install nvm # && nvm install --lts
-# brew install node
-# brew install node@16 && brew link --overwrite node@16 && npm install --global yarn
-# brew install openjdk
-# brew install pass
-brew install python
-# brew install reattach-to-user-namespace
-# brew install tmux
-# brew install tree
-brew install vim # --with-override-system-vi
-brew install wget # Surprisingly, it does not come with macOS.
-# brew install yarn # Install with: $ npm install --global yarn
-
-# Rust.
-# curl --proto "=https" --tlsv1.2 -sSf "https://sh.rustup.rs" | sh
-
 ################################################################################
 # Casks.
 ################################################################################
 
-brew install --cask 1password
-# brew install --cask android-studio
-# brew install --cask adobe-acrobat-reader
-brew install --cask adobe-creative-cloud
-# brew install --cask alfred
-# brew install --cask basictex
-brew install --cask chromium
-# brew install --cask displaylink
-# brew install --cask displaylink-login-extension
-# brew install --cask docker
-# brew install --cask dotnet-sdk
-# brew --cask install duet # Not sure I need this anymore...
-brew install --cask font-cascadia-code
-brew install --cask git-credential-manager
-# brew install --cask lulu
-# brew install --cask iterm2
-brew install --cask itsycal
-# brew install --cask microsoft-edge
-# brew install --cask microsoft-office
-# brew install --cask microsoft-teams
-brew install --cask miniconda
-brew install --cask monitorcontrol
-# brew install --cask mono-mdk
-# brew install --cask pluralsight
-# brew install --cask postman
-# brew install --cask signal
-# brew install --cask skim
-# brew install --cask sourcetree
-# brew install --cask teamviewer
-# brew install --cask the-unarchiver
-# brew install --cask unity-hub
-# brew install --cask virtualbox
-# brew install --cask visual-studio
-# brew install --cask visual-studio-code
-# brew install --cask whatsapp
+echo "${NAME}: installing casks ..."
+
+casks=(
+1password
+adobe-creative-cloud
+chromium
+font-cascadia-code
+git-credential-manager
+itsycal
+miniconda
+monitorcontrol
+)
+
+declare -A installed_casks
+while read -r name version ; do
+  installed_casks["$name"]="$version"
+done <<< "$(brew list --version --cask)"
+
+for cask in "${casks[@]}" ; do
+  if [[ ! -v installed_casks[$cask] ]] ; then
+    brew install "$cask" --cask
+  fi
+done
 
 ################################################################################
-# Cleanup
+# Cleanup.
 ################################################################################
 
-echo "${NAME}: cleaning up..."
+echo "${NAME}: cleaning up ..."
+
 brew cleanup --prune=all
 
