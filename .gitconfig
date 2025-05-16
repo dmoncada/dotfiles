@@ -3,4 +3,6 @@
 	email = david_moncada@icloud.com
 [credential]
 	helper = /usr/local/bin/git-credential-manager
+[alias]
+	open = "!f() { open \"$(git config --get remote.origin.url)\"; }; f"
 

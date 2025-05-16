@@ -117,4 +117,6 @@ done
 echo "${NAME}: cleaning up ..."
 
 brew cleanup --prune=all
+BREW_CACHE="$(brew --cache)"
+[ -d $BREW_CACHE ] && rm -rf $BREW_CACHE
 
