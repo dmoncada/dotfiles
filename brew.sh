@@ -25,12 +25,12 @@ fi
 # If brew is already installed...
 if which -s brew ; then # update it.
   echo "${NAME}: updating and upgrading homebrew ..."
-  brew update
+  brew update-if-needed
   brew upgrade
 
 else # install and diagnose.
   echo "${NAME}: installing homebrew ..."
-  $(which bash) -c $(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install.sh")
+  bash -c $(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install.sh")
 
   if [ "$?" -ne 0 ] ; then
     echo "${NAME}: the installation was aborted ..."
@@ -41,6 +41,7 @@ else # install and diagnose.
   brew analytics off
 
   echo "${NAME}: diagnosing homebrew ..."
+  brew config
   brew doctor
 fi
 
@@ -57,6 +58,7 @@ diffutils
 findutils
 make
 bat
+fzf
 git
 jq
 "python@3.13"
@@ -71,7 +73,7 @@ done <<< "$(brew list --version --formula)"
 
 for formula in "${formulae[@]}" ; do
   if [[ ! -v installed_formulae[$formula] ]] ; then
-    brew install "$formula"
+    brew install "$formula" --display-times
   fi
 done
 
@@ -106,7 +108,7 @@ done <<< "$(brew list --version --cask)"
 
 for cask in "${casks[@]}" ; do
   if [[ ! -v installed_casks[$cask] ]] ; then
-    brew install "$cask" --cask
+    brew install "$cask" --cask --display-times
   fi
 done
 

@@ -1,8 +1,7 @@
 # Controlling the prompt:
 # https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html
 
-make_prompt()
-{
+make_prompt() {
   local RESET="\e[0m"
   local BLACK="\e[0;30m"
   local RED="\e[0;31m"
