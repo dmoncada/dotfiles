@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Installs CLI tools using Homebrew.
 
-NAME="$(basename $0)"
+NAME="$(basename "$0")"
 
 ################################################################################
 # Xcode Command Line Tools.
@@ -30,9 +30,7 @@ if which -s brew ; then # update it.
 
 else # install and diagnose.
   echo "${NAME}: installing homebrew ..."
-  bash -c $(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install.sh")
-
-  if [ "$?" -ne 0 ] ; then
+  if ! bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" ; then
     echo "${NAME}: the installation was aborted ..."
     exit 1
   fi
@@ -57,11 +55,13 @@ coreutils
 diffutils
 findutils
 make
+curl
 bat
 fzf
 git
 jq
 "python@3.13"
+shellcheck
 vim
 wget
 )
@@ -120,5 +120,5 @@ echo "${NAME}: cleaning up ..."
 
 brew cleanup --prune=all
 BREW_CACHE="$(brew --cache)"
-[ -d $BREW_CACHE ] && rm -rf $BREW_CACHE
+[ -d "$BREW_CACHE" ] && rm -rf "$BREW_CACHE"
 

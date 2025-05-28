@@ -60,8 +60,8 @@ filesize() {
     return 1
   fi
 
-  if [ -e $1 ] ; then
-    stat --format=%s $1 | numfmt --to=iec --suffix=B
+  if [ -e "$1" ] ; then
+    stat --format=%s "$1" | numfmt --to=iec --suffix=B
     return 0
   fi
 
@@ -84,11 +84,11 @@ alias git=_git_wrap
 _conda_wrap() {
   CONDA_BIN=$(which conda)
 
-  if [ ! -n "$CONDA_BIN" ] ; then
+  if [ -z "$CONDA_BIN" ] ; then
     >&2 echo "${FUNCNAME[0]}: conda: command not found."
     return 1
 
-  elif [ ! -n "$CONDA_DEFAULT_ENV" ] ; then
+  elif [ -z "$CONDA_DEFAULT_ENV" ] ; then
     eval "$("$CONDA_BIN" "shell.$(basename "${SHELL}")" hook)"
 
   else
@@ -112,7 +112,7 @@ add_to_path() {
   fi
 
   # Check if the directory is already in the PATH.
-  if [ $(echo "$PATH" | tr -s ":" "\n" | grep "$dir" | uniq | wc -l) -ge 1 ] ; then
+  if [ "$(echo "$PATH" | tr -s ":" "\n" | grep "$dir" | uniq | wc -l)" -ge 1 ] ; then
     return 0
   fi
 

@@ -3,24 +3,30 @@
 
 make_prompt() {
   local RESET="\e[0m"
-  local BLACK="\e[0;30m"
-  local RED="\e[0;31m"
   local GREEN="\e[0;32m"
   local YELLOW="\e[0;33m"
   local BLUE="\e[0;34m"
   local MAGENTA="\e[0;35m"
+
+  # shellcheck disable=SC2034  # Unused colors left for completion.
+  local BLACK="\e[0;30m"
+  # shellcheck disable=SC2034  # Unused colors left for completion.
+  local RED="\e[0;31m"
+  # shellcheck disable=SC2034  # Unused colors left for completion.
   local CYAN="\e[0;36m"
+  # shellcheck disable=SC2034  # Unused colors left for completion.
   local WHITE="\e[0;37m"
 
   local prompt=""
-  local python_exe=$(which python3)
+  local python_exe
+  python_exe=$(which python3)
 
   # Is the active `python3` a venv executable:
-  if [ -n "$VIRTUAL_ENV" ] && echo $python_exe | grep -q "^$VIRTUAL_ENV" ; then
+  if [ -n "$VIRTUAL_ENV" ] && echo "$python_exe" | grep -q "^$VIRTUAL_ENV" ; then
     prompt+="\[$GREEN\](venv: $VIRTUAL_ENV_PROMPT) "
 
   # Is the active `python3` a conda executable?
-  elif [ -n "$CONDA_PREFIX" ] && echo $python_exe | grep -q "^$CONDA_PREFIX" ; then
+  elif [ -n "$CONDA_PREFIX" ] && echo "$python_exe" | grep -q "^$CONDA_PREFIX" ; then
     prompt+="\[$GREEN\](conda: $CONDA_DEFAULT_ENV) "
   fi
 

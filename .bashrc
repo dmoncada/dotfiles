@@ -8,6 +8,7 @@ unset file
 path_prepend "/usr/local/opt/coreutils/libexec/gnubin"
 path_prepend "/usr/local/opt/findutils/libexec/gnubin"
 path_prepend "/usr/local/opt/make/libexec/gnubin"
+path_prepend "/usr/local/opt/curl/bin"
 
 # Load cargo.
 [ -f ~/.cargo/env ] && source ~/.cargo/env

@@ -1,9 +1,12 @@
 # GNU make manual.
 # https://www.gnu.org/software/make/manual/make.html
 
-.PHONY: all macos install source
+.PHONY: all check macos install source
 
-all: macos install source
+all: check macos install source
+
+check:
+	@shellcheck --color=always --shell=bash $(shell find . -name "*.sh")
 
 macos:
 	@bash brew.sh
@@ -23,5 +26,5 @@ install:
 	. ~/
 
 source:
-	@source ~/.bashrc
+	@echo "Run: 'source ~/.bashrc' to reload environment."
 

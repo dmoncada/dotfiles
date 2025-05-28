@@ -50,7 +50,7 @@ alias path='echo $PATH | tr -s ":" "\n"'
 alias showip='curl --silent ipinfo.io | jq --raw-output ".ip"'
 
 # Define macOS-only aliases.
-if [ $(uname) = "Darwin" ] ; then
+if [ "$(uname)" = "Darwin" ] ; then
     # Recursively delete `.DS_Store` files.
     alias cleands='find . -type f -name ".*DS_Store" -ls -delete'
 
