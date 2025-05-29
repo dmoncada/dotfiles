@@ -60,6 +60,7 @@ bat
 fzf
 git
 jq
+just
 "python@3.13"
 shellcheck
 vim
