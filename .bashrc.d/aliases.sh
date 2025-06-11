@@ -1,21 +1,8 @@
-################################################################################
-# Aliases
-################################################################################
-
 # Colorized output.
 alias grep='grep --color'
 
 # Replacement for `ls`.
-if which -a eza > /dev/null ; then
-  alias ls='eza --almost-all --classify --color=always --group-directories-first --icons=always'
-  alias ll='ls --binary --git --group --long'
-  alias t='ls --tree --git-ignore'
-
-elif which -a lsd > /dev/null ; then
-  alias ls='lsd --almost-all --classify --color=always --group-dirs=first'
-  alias ll='ls --date="+%d %b %Y" --long'
-
-elif [ -f  /usr/local/opt/coreutils/libexec/gnubin/ls ] ; then
+if which brew &> /dev/null && [ -f "$(brew --prefix)/opt/coreutils/libexec/gnubin/ls" ] ; then
   alias ls='ls --almost-all --classify --color=always --group-directories-first'
   alias ll='ls -l --human-readable'
 
@@ -50,7 +37,7 @@ alias path='echo $PATH | tr -s ":" "\n"'
 alias showip='curl --silent ipinfo.io | jq --raw-output ".ip"'
 
 # Define macOS-only aliases.
-if [ "$(uname)" = "Darwin" ] ; then
+if is_macos ; then
     # Recursively delete `.DS_Store` files.
     alias cleands='find . -type f -name ".*DS_Store" -ls -delete'
 

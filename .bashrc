@@ -1,26 +1,40 @@
+alias is_linux='[ "$(uname)" = "Linux" ]'
+alias is_macos='[ "$(uname)" = "Darwin" ]'
+
+try_init_brew() {
+  local prefix="$1"
+  if [ -e "$prefix"/bin/brew ] ; then
+    eval "$("$prefix"/bin/brew shellenv)"
+  fi
+}
+
+# Load brew.
+try_init_brew "/opt/homebrew"
+try_init_brew "/home/linuxbrew/.linuxbrew"
+
 # Load startup files.
 for file in ~/.bashrc.d/*.sh ; do
   source "$file"
 done
 unset file
 
-# Override default Unix commands with their GNU counterparts (homebrew).
-path_prepend "/usr/local/opt/coreutils/libexec/gnubin"
-path_prepend "/usr/local/opt/findutils/libexec/gnubin"
-path_prepend "/usr/local/opt/make/libexec/gnubin"
-path_prepend "/usr/local/opt/curl/bin"
+BREW_PREFIX="$(brew --prefix)"
+path_prepend "${BREW_PREFIX}/opt/coreutils/libexec/gnubin"
+path_prepend "${BREW_PREFIX}/opt/findutils/libexec/gnubin"
+path_prepend "${BREW_PREFIX}/opt/make/libexec/gnubin"
+path_prepend "${BREW_PREFIX}/opt/curl/bin"
 
 # Load cargo.
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 # Set up `fzf`.
-if which -s fzf ; then eval "$(fzf --bash)" ; fi
+which fzf &> /dev/null && eval "$(fzf --bash)"
 
 # Set colors for `ls`, `lsd`, `eza`, etc.
 [ -f ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 
 # Use `bat` as the pager for `man`.
-export MANPAGER="sh -c 'col -bx | _bat --plain --language=man'"
+export MANPAGER="sh -c 'col -bx | bat --plain --language=man'"
 
 # Do not send analytics.
 export HOMEBREW_NO_ANALYTICS=1

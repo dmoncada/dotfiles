@@ -3,8 +3,8 @@
 
 @default: check macos install source
 
-check:
-    @shellcheck --color=always --shell=bash `find . -name "*.sh"`
+check *FLAGS:
+    @shellcheck {{FLAGS}} --color=always --shell=bash `find . -name "*.sh"`
 
 macos:
     @bash brew.sh

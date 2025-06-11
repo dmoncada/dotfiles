@@ -28,7 +28,7 @@ filetype plugin indent on
 " try | colorscheme solarized | catch /.*/ | endtry
 
 set nowrap                              " Do not wrap lines.
-" set encoding=utf-8                      " Fallback encoding.
+set encoding=utf-8                      " Fallback encoding.
 " set fileencoding=utf-8                  " Fallback encoding, the above is used if this is empty.
 set textwidth=120                       " Break lines after 120 characters.
 set number                              " Always show the numbers column.

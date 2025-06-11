@@ -1,48 +1,51 @@
-_bat() {
-  THEME="Solarized (light)"
+if is_macos ; then
+  _bat() {
+    local theme
+    theme="Solarized (light)"
 
-  if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-    THEME="Solarized (dark)"
-  fi
+    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
+      theme="Solarized (dark)"
+    fi
 
-  $(which bat) --theme="$THEME" "$@"
-}
+    "$(which bat)" --theme="$theme" "$@"
+  }
 
-# Make this function available to sub-shells.
-export -f _bat
+  # Make this function available to sub-shells.
+  export -f _bat
 
-# Refer to this function with `bat`.
-alias bat=_bat
+  # Refer to this function with `bat`.
+  alias bat=_bat
 
-clip() {
-  # Triggered when some program's output is piped to this function.
-  # Ex: $ echo "Hello, world!" | clip
-  # Ex: $ cat some.file | clip
-  if [ -p /dev/stdin ] ; then
-    cat | pbcopy
+  clip() {
+    # Triggered when some program's output is piped to this function.
+    # Ex: $ echo "Hello, world!" | clip
+    # Ex: $ cat some.file | clip
+    if [ -p /dev/stdin ] ; then
+      cat | pbcopy
 
-  # Triggered when some file's contents are redirected to this function.
-  # Ex: $ clip < some.file
-  elif [ ! -t 0 ] ; then
-    cat | pbcopy
+    # Triggered when some file's contents are redirected to this function.
+    # Ex: $ clip < some.file
+    elif [ ! -t 0 ] ; then
+      cat | pbcopy
 
-  # Triggered when this function's output is piped to some program.
-  # Ex: $ clip | cat
-  elif [ -p /dev/stdout ] ; then
-    pbpaste
+    # Triggered when this function's output is piped to some program.
+    # Ex: $ clip | cat
+    elif [ -p /dev/stdout ] ; then
+      pbpaste
 
-  # Triggered when this function's output is redirected to some file.
-  # Ex: $ clip > some.file
-  elif [ ! -t 1 ] ; then
-    pbpaste
+    # Triggered when this function's output is redirected to some file.
+    # Ex: $ clip > some.file
+    elif [ ! -t 1 ] ; then
+      pbpaste
 
-  # Triggered when the function is invoked with no arguments; will print the
-  # contents of the clipboard to the terminal.
-  # Ex: $ clip
-  else
-    pbpaste
-  fi
-}
+    # Triggered when the function is invoked with no arguments; will print the
+    # contents of the clipboard to the terminal.
+    # Ex: $ clip
+    else
+      pbpaste
+    fi
+  }
+fi
 
 dui() {
   if [ $# -gt 1 ] ; then
@@ -98,7 +101,7 @@ _conda_wrap() {
 alias conda=_conda_wrap
 
 help() {
-  "$@" --help 2>&1 | _bat --plain --language=help
+  "$@" --help 2>&1 | bat --plain --language=help
 }
 
 add_to_path() {
