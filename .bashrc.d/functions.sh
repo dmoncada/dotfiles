@@ -100,6 +100,11 @@ _conda_wrap() {
 }
 alias conda=_conda_wrap
 
+_jq_wrap() {
+  jq -C "$@" | less -FR
+}
+alias jq=_jq_wrap
+
 help() {
   "$@" --help 2>&1 | bat --plain --language=help
 }

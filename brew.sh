@@ -39,6 +39,7 @@ fi
 if which brew &> /dev/null ; then # update it.
   echo "${NAME}: updating and upgrading homebrew ..."
   brew update-if-needed
+  brew outdated
   brew upgrade
 
 else # install and diagnose.
@@ -48,10 +49,12 @@ else # install and diagnose.
     exit 1
   fi
 
-  try_init_brew "/opt/homebrew"
-  try_init_brew "/home/linuxbrew/.linuxbrew"
+  if is_macos ; then
+    try_init_brew "/opt/homebrew"
+  fi
 
   if is_linux ; then
+    try_init_brew "/home/linuxbrew/.linuxbrew"
     sudo apt-get install build-essential --yes
     brew install gcc
   fi
@@ -80,6 +83,7 @@ curl
 bat
 fzf
 git
+glow
 jq
 just
 "python@3.13"
