@@ -1,6 +1,8 @@
 [user]
 	name = David Moncada
 	email = david_moncada@icloud.com
+[init]
+	defaultBranch = main
 [credential]
 	helper = /usr/local/bin/git-credential-manager
 [alias]
