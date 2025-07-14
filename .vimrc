@@ -299,6 +299,6 @@ let g:prettier#autoformat_config_files=[
     \ '.prettierrc.toml'
     \ ]
 
-" Disable pragma support.
-let g:prettier#autoformat_require_pragma=0
+" Prefer config file settings.
+let g:prettier#config#config_precedence='prefer-file'
 
