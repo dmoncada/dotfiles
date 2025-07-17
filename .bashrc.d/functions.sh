@@ -1,21 +1,4 @@
 if is_macos ; then
-  _bat() {
-    local theme
-    theme="Solarized (light)"
-
-    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      theme="Solarized (dark)"
-    fi
-
-    "$(which bat)" --theme="$theme" "$@"
-  }
-
-  # Make this function available to sub-shells.
-  export -f _bat
-
-  # Refer to this function with `bat`.
-  alias bat=_bat
-
   clip() {
     # Triggered when some program's output is piped to this function.
     # Ex: $ echo "Hello, world!" | clip

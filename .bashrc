@@ -34,7 +34,7 @@ which fzf &> /dev/null && eval "$(fzf --bash)"
 [ -f ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 
 # Use `bat` as the pager for `man`.
-export MANPAGER="sh -c 'col -bx | bat --plain --language=man'"
+export MANPAGER="sh -c 'col -bx | bat --plain --language=man --no-config'"
 
 # Do not send analytics.
 export HOMEBREW_NO_ANALYTICS=1
