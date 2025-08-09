@@ -121,6 +121,7 @@ if is_macos ; then
   1password
   adobe-creative-cloud
   chromium
+  duckduckgo
   font-cascadia-code
   git-credential-manager
   itsycal

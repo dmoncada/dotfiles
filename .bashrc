@@ -8,9 +8,13 @@ try_init_brew() {
   fi
 }
 
-# Load brew.
-try_init_brew "/opt/homebrew"
-try_init_brew "/home/linuxbrew/.linuxbrew"
+if is_macos ; then
+  try_init_brew "/opt/homebrew"
+fi
+
+if is_linux ; then
+  try_init_brew "/home/linuxbrew/.linuxbrew"
+fi
 
 # Load startup files.
 for file in ~/.bashrc.d/*.sh ; do

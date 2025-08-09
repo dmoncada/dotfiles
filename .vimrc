@@ -173,37 +173,44 @@ augroup END
 " Status line config.
 " ===================
 
+function! Wrap(text)
+    return '[' . a:text . ']'
+endfunction
+function! GetModified()
+    return &modified ? '*' : ''
+endfunction
 function! GetTabSize()
-    return 'Spaces: ' . &tabstop
+    return 'Spaces:' . &tabstop
 endfunction
 function! GetEncoding()
     return toupper(&fileencoding ? &fileencoding : &encoding)
 endfunction
 function! GetFormat()
-    return toupper(&fileformat)
+    return get({ 'unix': 'LF', 'dos':  'CRLF', }, &fileformat, 'UNKNOWN')
 endfunction
 function! GetType()
     return toupper(&filetype)
 endfunction
 
-set laststatus=2                        " Always show the status line.
+set laststatus=2                           " Always show the status line.
 set statusline=
-set statusline+=%<
-set statusline+=%f                      " Relative path to file.
+set statusline+=%<                         " Truncate long lines.
 set statusline+=\ 
-set statusline+=%h                      " Help flag.
-set statusline+=%m                      " Modified flag.
-set statusline+=%r                      " Readonly flag.
-set statusline+=%=                      " Justify left.
-set statusline+=Ln\ %l,\ Col\ %c        " Line and column.
+set statusline+=[%t]                       " File name (tail only).
+set statusline+=%h                         " Help file flag.
+set statusline+=%r                         " Readonly flag.
+set statusline+=\ 
+set statusline+=%{GetModified()}           " Modified flag (* if modified).
+set statusline+=%=                         " Align right.
+set statusline+=%l:%c                      " Line and column numbers.
 set statusline+=\ \ 
-set statusline+=%{GetTabSize()}         " Tab size.
+set statusline+=%{Wrap(GetTabSize())}      " Tab size.
 set statusline+=\ \ 
-set statusline+=%{GetEncoding()}        " Encoding (e.g. UTF-8)
+set statusline+=%{Wrap(GetEncoding())}     " File encoding (e.g. UTF-8).
 set statusline+=\ \ 
-set statusline+=%{GetFormat()}          " Line terminator (e.g. CRLF)
-set statusline+=\ \ 
-set statusline+=%{GetType()}            " Language mode (e.g. JavaScript)"
+set statusline+=%{Wrap(GetFormat())}       " Line ending (e.g. LF/CRLF).
+" set statusline+=\ \ 
+" set statusline+=%{Wrap(GetType())}         " Filetype (e.g. JavaScript).
 set statusline+=\ 
 
 " ============
@@ -279,6 +286,7 @@ let g:black_virtualenv='~/.black/bin'
 
 " Do not conceal chars. in JSON files.
 let g:indentLine_fileTypeExclude=['json']
+let g:indentLine_bufNameExclude=['Dockerfile']
 
 " Expand delimiters on space, newline.
 let b:delimitMate_expand_space=1

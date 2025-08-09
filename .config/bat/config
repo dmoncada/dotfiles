@@ -1,5 +1,6 @@
+--pager="less -FR"
 --chop-long-lines
 --theme="auto:system"
---theme-light="OneHalfLight"
 --theme-dark="OneHalfDark"
+--theme-light="OneHalfLight"
 
