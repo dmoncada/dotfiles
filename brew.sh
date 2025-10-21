@@ -2,10 +2,6 @@
 
 set -euo pipefail
 
-shopt -s expand_aliases
-alias is_macos='[ "$(uname)" = "Darwin" ]'
-alias is_linux='[ "$(uname)" = "Linux" ]'
-
 try_init_brew() {
   local prefix="$1"
   if [ -e "$prefix"/bin/brew ] ; then
@@ -21,14 +17,12 @@ NAME="$(basename "$0")"
 # Xcode Command Line Tools.
 ################################################################################
 
-if is_macos ; then
-  # If the Xcode CLI tools are not already installed...
-  if ! xcode-select --print-path &> /dev/null ; then # install them.
-    echo "${NAME}: installing the Xcode command line tools ..."
-    echo "${NAME}: re-run this script when finished."
-    xcode-select --install
-    exit 0
-  fi
+# If the Xcode CLI tools are not already installed...
+if ! xcode-select --print-path &> /dev/null ; then # install them.
+  echo "${NAME}: installing the Xcode command line tools ..."
+  echo "${NAME}: re-run this script when finished."
+  xcode-select --install
+  exit 0
 fi
 
 ################################################################################
@@ -38,7 +32,7 @@ fi
 # If brew is already installed...
 if which brew &> /dev/null ; then # update it.
   echo "${NAME}: updating and upgrading homebrew ..."
-  brew update-if-needed
+  brew update
   brew outdated
   brew upgrade
 
@@ -49,15 +43,7 @@ else # install and diagnose.
     exit 1
   fi
 
-  if is_macos ; then
-    try_init_brew "/opt/homebrew"
-  fi
-
-  if is_linux ; then
-    try_init_brew "/home/linuxbrew/.linuxbrew"
-    sudo apt-get install build-essential --yes
-    brew install gcc
-  fi
+  try_init_brew "/opt/homebrew"
 
   echo "${NAME}: disabling analytics ..."
   brew analytics off
@@ -75,18 +61,19 @@ echo "${NAME}: installing formulae ..."
 
 formulae=(
 bash
+make
+stow
 coreutils
 diffutils
 findutils
-make
 curl
 bat
+csvkit
 fzf
 git
 glow
 jq
-just
-"python@3.13"
+"python@3.14"
 shellcheck
 vim
 wget
@@ -114,32 +101,30 @@ fi
 # Casks.
 ################################################################################
 
-if is_macos ; then
-  echo "${NAME}: installing casks ..."
+echo "${NAME}: installing casks ..."
 
-  casks=(
-  1password
-  adobe-creative-cloud
-  chromium
-  duckduckgo
-  font-cascadia-code
-  git-credential-manager
-  itsycal
-  miniconda
-  monitorcontrol
-  )
+casks=(
+1password
+adobe-creative-cloud
+chromium
+duckduckgo
+font-cascadia-code
+git-credential-manager
+itsycal
+miniconda
+monitorcontrol
+)
 
-  declare -A installed_casks
-  while read -r name version ; do
-    installed_casks["$name"]="$version"
-  done <<< "$(brew list --version --cask)"
+declare -A installed_casks
+while read -r name version ; do
+  installed_casks["$name"]="$version"
+done <<< "$(brew list --version --cask)"
 
-  for cask in "${casks[@]}" ; do
-    if [[ ! -v installed_casks[$cask] ]] ; then
-      brew install "$cask" --cask --display-times
-    fi
-  done
-fi
+for cask in "${casks[@]}" ; do
+  if [[ ! -v installed_casks[$cask] ]] ; then
+    brew install "$cask" --cask --display-times
+  fi
+done
 
 ################################################################################
 # Cleanup.

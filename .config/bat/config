@@ -1,4 +1,4 @@
---pager="less -FR"
+--pager="less -FRS"
 --chop-long-lines
 --theme="auto:system"
 --theme-dark="OneHalfDark"

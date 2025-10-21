@@ -14,17 +14,14 @@ macos:
 	@bash macos.sh
 
 install:
-	@rsync \
-		-avh \
-		--exclude ".git" \
-		--exclude ".gitignore" \
-		--exclude "brew.sh" \
-		--exclude "macos.sh" \
-		--exclude "Makefile" \
-		--exclude "README.md" \
-		--exclude "*.DS_STORE" \
-		--exclude "*.swp" \
-		./ ~/
+	@stow \
+		--restow . \
+		--target=$$HOME \
+		--ignore='.*\.sh' \
+		--ignore='.*\.swp' \
+		--ignore='.*\.DS_STORE' \
+		--ignore=Makefile \
+		--verbose=2
 
 source:
 	@echo "Run: 'source ~/.bashrc' to reload environment."
