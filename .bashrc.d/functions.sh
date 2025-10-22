@@ -68,14 +68,15 @@ _git_wrap() {
 alias git=_git_wrap
 
 _conda_wrap() {
-  CONDA_BIN=$(which conda)
+  CONDA_BIN=micromamba
 
   if [ -z "$CONDA_BIN" ] ; then
     >&2 echo "${FUNCNAME[0]}: conda: command not found."
     return 1
 
   elif [ -z "$CONDA_DEFAULT_ENV" ] ; then
-    eval "$("$CONDA_BIN" "shell.$(basename "${SHELL}")" hook)"
+    eval "$("$CONDA_BIN" shell hook --shell "$(basename "${SHELL}")")"
+    $CONDA_BIN activate
 
   else
     $CONDA_BIN "$@"

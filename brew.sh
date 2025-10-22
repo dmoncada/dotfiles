@@ -33,7 +33,6 @@ fi
 if which brew &> /dev/null ; then # update it.
   echo "${NAME}: updating and upgrading homebrew ..."
   brew update
-  brew outdated
   brew upgrade
 
 else # install and diagnose.
@@ -73,6 +72,7 @@ fzf
 git
 glow
 jq
+micromamba
 "python@3.14"
 shellcheck
 vim
@@ -111,7 +111,6 @@ duckduckgo
 font-cascadia-code
 git-credential-manager
 itsycal
-miniconda
 monitorcontrol
 )
 
