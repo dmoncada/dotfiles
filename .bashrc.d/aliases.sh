@@ -21,6 +21,9 @@ alias mv='mv -i -v'
 alias cp='cp -i -v'
 alias ln='ln -i -v'
 
+# Quit if content fits one page.
+alias less='less -FRS'
+
 # Builds intermediate dirs.
 alias mkdir='mkdir -p'
 
@@ -31,10 +34,10 @@ alias resource='[ -f ~/.bashrc ] && source ~/.bashrc'
 alias ..='cd ..'
 
 # Prints each `PATH` entry on a separate line.
-alias path='echo $PATH | tr -s ":" "\n"'
+alias printpath='echo $PATH | tr -s ":" "\n"'
 
 # Prints your local ip address.
-alias showip='curl --silent ipinfo.io | jq --raw-output ".ip"'
+alias printip='curl --silent ipinfo.io | jq --raw-output ".ip"'
 
 # Define macOS-only aliases.
 if is_macos ; then

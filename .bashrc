@@ -37,6 +37,9 @@ which fzf &> /dev/null && eval "$(fzf --bash)"
 # Set colors for `ls`, `lsd`, `eza`, etc.
 [ -f ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 
+# Set `vim` as the default editor.
+export EDITOR=vim
+
 # Use `bat` as the pager for `man`.
 export MANPAGER="sh -c 'col -bx | bat --plain --language=man --no-config'"
 

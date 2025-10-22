@@ -14,14 +14,7 @@ macos:
 	@bash macos.sh
 
 install:
-	@stow \
-		--restow . \
-		--target=$$HOME \
-		--ignore='.*\.sh' \
-		--ignore='.*\.swp' \
-		--ignore='.*\.DS_STORE' \
-		--ignore=Makefile \
-		--verbose=2
+	@bash stow.sh
 
 source:
 	@echo "Run: 'source ~/.bashrc' to reload environment."

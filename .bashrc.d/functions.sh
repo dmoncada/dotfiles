@@ -68,24 +68,23 @@ _git_wrap() {
 alias git=_git_wrap
 
 _conda_wrap() {
-  CONDA_BIN=micromamba
-
-  if [ -z "$CONDA_BIN" ] ; then
+  if [ -z "$(which mamba)" ] ; then
     >&2 echo "${FUNCNAME[0]}: conda: command not found."
     return 1
+  fi
 
-  elif [ -z "$CONDA_DEFAULT_ENV" ] ; then
-    eval "$("$CONDA_BIN" shell hook --shell "$(basename "${SHELL}")")"
-    $CONDA_BIN activate
+  if [ -z "$CONDA_DEFAULT_ENV" ] ; then
+    eval "$(mamba shell hook --shell "$(basename "${SHELL}")")"
+    mamba activate
 
   else
-    $CONDA_BIN "$@"
+    mamba "$@"
   fi
 }
 alias conda=_conda_wrap
 
 _jq_wrap() {
-  jq -C "$@" | less -FR
+  jq -C "$@" | less -FRS
 }
 alias jq=_jq_wrap
 
