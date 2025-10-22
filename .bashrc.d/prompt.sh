@@ -35,8 +35,8 @@ make_prompt() {
   prompt+="\[$BLUE\] \W"
 
   if git rev-parse --is-inside-work-tree &> /dev/null ; then
-    ref=$(git rev-parse --abbrev-ref HEAD)
-    if [ "$ref" = "HEAD" ] ; then
+    ref=$(git symbolic-ref --quiet --short HEAD)
+    if [ -z "$ref" ] ; then
       ref=$(git rev-parse --short HEAD)
     fi
 
