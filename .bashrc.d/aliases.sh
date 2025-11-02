@@ -1,9 +1,6 @@
-# Colorized output.
-alias grep='grep --color'
-
 # Replacement for `ls`.
-if which brew &> /dev/null && [ -f "$(brew --prefix)/opt/coreutils/libexec/gnubin/ls" ] ; then
-  alias ls='ls --almost-all --classify --color=always --group-directories-first'
+if which gls > /dev/null 2>&1 ; then
+  alias ls='gls --almost-all --classify --color=always --group-directories-first'
   alias ll='ls -l --human-readable'
 
 else # System `ls`.
@@ -20,6 +17,9 @@ alias rm='rm -i'
 alias mv='mv -i -v'
 alias cp='cp -i -v'
 alias ln='ln -i -v'
+
+# Colorized output.
+alias grep='grep --color'
 
 # Quit if content fits one page.
 alias less='less -FRS'

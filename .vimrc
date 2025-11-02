@@ -292,7 +292,8 @@ let g:indentLine_bufNameExclude=['Dockerfile']
 let b:delimitMate_expand_space=1
 let b:delimitMate_expand_cr=1
 
-" Autoformat on save -only- if a config file is found.
+" Prefer config file, format on save if a config file is found.
+let g:prettier#config#config_precedence='prefer-file'
 let g:prettier#autoformat_config_present=1
 let g:prettier#autoformat_config_files=[
     \ '.prettierrc',
@@ -306,7 +307,4 @@ let g:prettier#autoformat_config_files=[
     \ 'prettier.config.cjs',
     \ '.prettierrc.toml'
     \ ]
-
-" Prefer config file settings.
-let g:prettier#config#config_precedence='prefer-file'
 

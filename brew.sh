@@ -62,6 +62,7 @@ formulae=(
 bash
 make
 stow
+binutils
 coreutils
 diffutils
 findutils
@@ -76,6 +77,7 @@ micromamba
 "python@3.14"
 shellcheck
 vim
+watch
 wget
 )
 

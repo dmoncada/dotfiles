@@ -18,11 +18,12 @@ fi
 
 # Load startup files.
 for file in ~/.bashrc.d/*.sh ; do
-  source "$file"
+  . "$file"
 done
 unset file
 
 BREW_PREFIX="$(brew --prefix)"
+path_prepend "${BREW_PREFIX}/opt/binutils/bin"
 path_prepend "${BREW_PREFIX}/opt/coreutils/libexec/gnubin"
 path_prepend "${BREW_PREFIX}/opt/findutils/libexec/gnubin"
 path_prepend "${BREW_PREFIX}/opt/make/libexec/gnubin"
@@ -32,7 +33,7 @@ path_prepend "${BREW_PREFIX}/opt/curl/bin"
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
 # Set up `fzf`.
-which fzf &> /dev/null && eval "$(fzf --bash)"
+which fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
 
 # Set colors for `ls`, `lsd`, `eza`, etc.
 [ -f ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -41,7 +42,7 @@ which fzf &> /dev/null && eval "$(fzf --bash)"
 export EDITOR=vim
 
 # Use `bat` as the pager for `man`.
-export MANPAGER="sh -c 'col -bx | bat --plain --language=man --no-config'"
+export MANPAGER="sh -c 'col -bx | bat --language=man'"
 
 # Do not send analytics.
 export HOMEBREW_NO_ANALYTICS=1

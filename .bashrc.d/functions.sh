@@ -68,7 +68,7 @@ _git_wrap() {
 alias git=_git_wrap
 
 _conda_wrap() {
-  if [ -z "$(which mamba)" ] ; then
+  if ! which mamba > /dev/null 2>&1 ; then
     >&2 echo "${FUNCNAME[0]}: conda: command not found."
     return 1
   fi
@@ -83,13 +83,16 @@ _conda_wrap() {
 }
 alias conda=_conda_wrap
 
-_jq_wrap() {
-  jq -C "$@" | less -FRS
+json() {
+  if [ -t 0 ] && [ $# -gt 0 ]; then
+    jq . "$@" | less -FRS
+  else
+    jq "$@" | less -FRS
+  fi
 }
-alias jq=_jq_wrap
 
 help() {
-  "$@" --help 2>&1 | bat --plain --language=help
+  "$@" --help 2>&1 | bat --language=help
 }
 
 add_to_path() {
@@ -128,4 +131,3 @@ path_append() {
 path_prepend() {
   add_to_path "$1" "prepend"
 }
-

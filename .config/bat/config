@@ -1,6 +1,7 @@
---pager="less -FRS"
+--plain
 --chop-long-lines
+--pager="less -FRS"
 --theme="auto:system"
---theme-dark="OneHalfDark"
---theme-light="OneHalfLight"
+--theme-dark="Solarized (dark)"
+--theme-light="Solarized (light)"
 
