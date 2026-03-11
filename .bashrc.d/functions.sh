@@ -1,38 +1,16 @@
 if is_macos ; then
   clip() {
-    # Triggered when some program's output is piped to this function.
-    # Ex: $ echo "Hello, world!" | clip
-    # Ex: $ cat some.file | clip
-    if [ -p /dev/stdin ] ; then
-      cat | pbcopy
-
-    # Triggered when some file's contents are redirected to this function.
-    # Ex: $ clip < some.file
-    elif [ ! -t 0 ] ; then
-      cat | pbcopy
-
-    # Triggered when this function's output is piped to some program.
-    # Ex: $ clip | cat
-    elif [ -p /dev/stdout ] ; then
-      pbpaste
-
-    # Triggered when this function's output is redirected to some file.
-    # Ex: $ clip > some.file
-    elif [ ! -t 1 ] ; then
-      pbpaste
-
-    # Triggered when the function is invoked with no arguments; will print the
-    # contents of the clipboard to the terminal.
-    # Ex: $ clip
+    if [ ! -t 0 ]; then
+        pbcopy
     else
-      pbpaste
+        pbpaste
     fi
   }
 fi
 
 dui() {
   if [ $# -gt 1 ] ; then
-    >&2 echo "Usage: ${FUNCNAME[0]} [FILE]"
+    echo "Usage: ${FUNCNAME[0]} [FILE]" >&2
     return 1
   fi
 
@@ -42,7 +20,7 @@ dui() {
 
 filesize() {
   if [ $# -ne 1 ] ; then
-    >&2 echo "Usage: ${FUNCNAME[0]} FILE"
+    echo "Usage: ${FUNCNAME[0]} FILE" >&2
     return 1
   fi
 
@@ -51,43 +29,70 @@ filesize() {
     return 0
   fi
 
-  >&2 echo "${FUNCNAME[0]}: cannot ${FUNCNAME[0]} '$1': No such file or directory."
+  echo "${FUNCNAME[0]}: cannot ${FUNCNAME[0]} '$1': No such file or directory." >&2
   return 1
 }
 
-_git_wrap() {
-  GIT_BIN=$(which git)
+git() {
+  local git_bin=""
+  git_bin="$(command -v git)"
 
-  if [ $# -eq 0 ] ; then
-    $GIT_BIN status
-    return 0
+  if [ "$git_bin" = "$0" ]; then
+    echo "Error: git binary not found." >&2
+    return 1
   fi
 
-  $GIT_BIN "$@"
+  if [ "$#" -eq 0 ] ; then
+    command "$git_bin" status
+    return
+  fi
+
+  if [ "$#" -eq 1 ] && [ "$1" = "root" ] ; then
+    local root=""
+    root="$("$git_bin" rev-parse --show-toplevel 2> /dev/null)" || {
+      echo "Not inside a git repository." >&2
+      return 1
+    }
+    cd "$root" || {
+      echo "Failed to cd into $root" >&2
+      return 1
+    }
+    return
+  fi
+
+  command "$git_bin" "$@"
 }
-alias git=_git_wrap
 
 _conda_wrap() {
-  if ! which mamba > /dev/null 2>&1 ; then
-    >&2 echo "${FUNCNAME[0]}: conda: command not found."
+  if ! which micromamba > /dev/null 2>&1 ; then
+    echo "${FUNCNAME[0]}: conda: command not found." >&2
     return 1
   fi
 
   if [ -z "$CONDA_DEFAULT_ENV" ] ; then
-    eval "$(mamba shell hook --shell "$(basename "${SHELL}")")"
-    mamba activate
-
-  else
-    mamba "$@"
+    eval "$(micromamba shell hook --shell "$(basename "${SHELL}")")"
+    micromamba activate
+    return
   fi
+
+  micromamba "$@"
 }
 alias conda=_conda_wrap
 
+unity()
+{
+  # TODO:
+  #
+  # PROJECTS="$(pwsh -NoLogo -NoProfile -Command "@(Get-UnityProjectInstance -BasePath '$(pwd)' -Recurse) | ForEach-Object { \$_.Path }")"
+
+  pwsh -NoLogo -NoProfile -Command "Start-UnityEditor"
+}
+
 json() {
-  if [ -t 0 ] && [ $# -gt 0 ]; then
-    jq . "$@" | less -FRS
+  if [ -t 0 ] && [ "$#" -gt 0 ]; then
+    jq . "$@" | $PAGER
   else
-    jq "$@" | less -FRS
+    jq "$@" | $PAGER
   fi
 }
 
@@ -107,7 +112,7 @@ add_to_path() {
 
   # Check if the directory is already in the PATH.
   if [ "$(echo "$PATH" | tr -s ":" "\n" | grep "$dir" | uniq | wc -l)" -ge 1 ] ; then
-    return 0
+    return
   fi
 
   case "$action" in
@@ -118,7 +123,7 @@ add_to_path() {
       export PATH="$dir:$PATH"
       ;;
     *)
-      >&2 echo "${FUNCNAME[0]}: invalid action '$action'."
+      echo "${FUNCNAME[0]}: invalid action '$action'." >&2
       return 1
       ;;
   esac

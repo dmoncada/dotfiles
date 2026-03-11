@@ -5,7 +5,7 @@ set bell-style none
 set completion-ignore-case on
 set completion-map-case on
 set editing-mode vi
-set show-mode-in-prompt on
+# set show-mode-in-prompt on
 
 $if mode=vi
   # Display mode indicator chars. in white.

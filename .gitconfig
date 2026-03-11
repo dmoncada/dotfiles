@@ -7,4 +7,3 @@
 
 [alias]
 	open = "!f() { open \"$(git config --get remote.origin.url)\"; }; f"
-

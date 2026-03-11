@@ -30,7 +30,7 @@ fi
 ################################################################################
 
 # If brew is already installed...
-if which brew &> /dev/null ; then # update it.
+if which brew > /dev/null 2>&1 ; then # update it.
   echo "${NAME}: updating and upgrading homebrew ..."
   brew update
   brew upgrade
@@ -38,7 +38,7 @@ if which brew &> /dev/null ; then # update it.
 else # install and diagnose.
   echo "${NAME}: installing homebrew ..."
   if ! bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" ; then
-    echo "${NAME}: the installation was aborted ..."
+    echo "${NAME}: the installation was aborted ..." >&2
     exit 1
   fi
 
@@ -107,7 +107,6 @@ echo "${NAME}: installing casks ..."
 
 casks=(
 1password
-adobe-creative-cloud
 chromium
 duckduckgo
 font-cascadia-code
@@ -135,5 +134,5 @@ echo "${NAME}: cleaning up ..."
 
 brew cleanup --prune=all
 BREW_CACHE="$(brew --cache)"
-[ -d "$BREW_CACHE" ] && rm -rf "$BREW_CACHE"
+[ -d "$BREW_CACHE" ] && rm -fr "$BREW_CACHE"
 

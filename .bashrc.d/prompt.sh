@@ -16,7 +16,9 @@ make_prompt() {
 
   local prompt=""
 
-  if [ -n "$CONDA_PREFIX" ] ; then
+  if [ -n "$VIRTUAL_ENV" ] ; then
+    prompt+="\[$GREEN\](venv: $VIRTUAL_ENV_PROMPT) "
+  elif [ -n "$CONDA_PREFIX" ] ; then
     prompt+="\[$GREEN\](conda: $CONDA_DEFAULT_ENV) "
   fi
 
@@ -24,7 +26,7 @@ make_prompt() {
   prompt+="\[$RESET\] in"
   prompt+="\[$BLUE\] \W"
 
-  if git rev-parse --is-inside-work-tree &> /dev/null ; then
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1 ; then
     ref=$(git symbolic-ref --quiet --short HEAD)
     if [ -z "$ref" ] ; then
       ref=$(git rev-parse --short HEAD)

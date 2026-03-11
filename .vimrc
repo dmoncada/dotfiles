@@ -195,23 +195,23 @@ endfunction
 set laststatus=2                           " Always show the status line.
 set statusline=
 set statusline+=%<                         " Truncate long lines.
-set statusline+=\ 
+set statusline+=\
 set statusline+=[%t]                       " File name (tail only).
 set statusline+=%h                         " Help file flag.
 set statusline+=%r                         " Readonly flag.
-set statusline+=\ 
+set statusline+=\
 set statusline+=%{GetModified()}           " Modified flag (* if modified).
 set statusline+=%=                         " Align right.
 set statusline+=%l:%c                      " Line and column numbers.
-set statusline+=\ \ 
+set statusline+=\ \
 set statusline+=%{Wrap(GetTabSize())}      " Tab size.
-set statusline+=\ \ 
+set statusline+=\ \
 set statusline+=%{Wrap(GetEncoding())}     " File encoding (e.g. UTF-8).
-set statusline+=\ \ 
+set statusline+=\ \
 set statusline+=%{Wrap(GetFormat())}       " Line ending (e.g. LF/CRLF).
-" set statusline+=\ \ 
+" set statusline+=\ \
 " set statusline+=%{Wrap(GetType())}         " Filetype (e.g. JavaScript).
-set statusline+=\ 
+set statusline+=\
 
 " ============
 " Key mappings
@@ -223,30 +223,12 @@ nnoremap q <nop>
 nnoremap <space> <nop>
 nnoremap <expr> gh ':help '.expand('<cword>').'<cr>'
 nnoremap <silent> <leader>q :confirm quit<cr>
-" nnoremap <silent> <leader>c :Commentary<cr>
-" vnoremap <silent> <leader>c :Commentary<cr>
 nnoremap <silent> <leader>; :edit.<cr>
-" inoremap jk <esc>
-
-" inoremap <nul> <nop>
-" inoremap <c-@> <nop>
-inoremap <nul> <c-n>
-inoremap <c-@> <c-n>
 
 nnoremap <tab> >>
 nnoremap <s-tab> <<
 vnoremap <tab> >gv
 vnoremap <s-tab> <gv
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : ""
-
-nnoremap <silent> <c-h> <c-w><c-h>
-nnoremap <silent> <c-j> <c-w><c-j>
-nnoremap <silent> <c-k> <c-w><c-k>
-nnoremap <silent> <c-l> <c-w><c-l>
-
-tnoremap <silent> <c-j> <c-w><c-j>
-tnoremap <silent> <c-k> <c-w><c-k>
 
 function! MapCtrlForwardSlash()
     if exists(':Commentary') == 0
@@ -266,16 +248,6 @@ function! MapCtrlForwardSlash()
     endif
 endfunction
 
-if IsWindows() && has('gui_running')
-    " Re-map the ctrl + backspace combo directly.
-    inoremap <c-backspace> <c-w>
-elseif IsMacos()
-    " Delete previous word with ctrl + backspace.
-    " Needs: "Send Hex Codes: 0x17" mapped to ctrl + backspace in iTerm2.
-    " See: https://vim.fandom.com/wiki/Map_Ctrl-Backspace_to_delete_previous_word
-    inoremap <c-w> <c-\><c-o>db
-endif
-
 " ===============
 " Plugins config.
 " ===============
@@ -284,6 +256,7 @@ endif
 let g:black_use_virtualenv=1
 let g:black_virtualenv='~/.black/bin'
 
+let g:indentLine_char='|'
 " Do not conceal chars. in JSON files.
 let g:indentLine_fileTypeExclude=['json']
 let g:indentLine_bufNameExclude=['Dockerfile']
@@ -307,4 +280,3 @@ let g:prettier#autoformat_config_files=[
     \ 'prettier.config.cjs',
     \ '.prettierrc.toml'
     \ ]
-

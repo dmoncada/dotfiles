@@ -1,7 +1,5 @@
 --plain
---chop-long-lines
---pager="less -FRS"
+--paging=always
 --theme="auto:system"
 --theme-dark="Solarized (dark)"
 --theme-light="Solarized (light)"
-

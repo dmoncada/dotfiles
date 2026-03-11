@@ -41,8 +41,14 @@ which fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
 # Set `vim` as the default editor.
 export EDITOR=vim
 
+# Set `less` as the default pager.
+export PAGER="less --RAW-CONTROL-CHARS --chop-long-lines --quit-if-one-screen"
+
 # Use `bat` as the pager for `man`.
 export MANPAGER="sh -c 'col -bx | bat --language=man'"
+
+# Set the default config. file for `glow`.
+export GLOW_CONFIG_HOME="${HOME}/.config/glow"
 
 # Do not send analytics.
 export HOMEBREW_NO_ANALYTICS=1
@@ -55,10 +61,3 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # See: https://superuser.com/a/59198
 [[ $- = *i* ]] && bind TAB:menu-complete
 bind '"\e[Z":menu-complete-backward'
-
-# Delete word with ctrl + backspace.
-# Needs: "Send Hex Codes: 0x17" mapped to ctrl + backspace in iTerm2.
-# See: https://github.com/microsoft/terminal/issues/755#issuecomment-541119165
-bind '"\C-h":backward-kill-word'
-# bind '"\C-w":backward-kill-word'
-
