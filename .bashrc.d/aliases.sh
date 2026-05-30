@@ -21,8 +21,8 @@ alias ln='ln -i -v'
 # Colorized output.
 alias grep='grep --color'
 
-# Quit if content fits one page.
-alias less='less -FRS'
+# # Quit if content fits one page.
+# alias less='less -FRS'
 
 # Builds intermediate dirs.
 alias mkdir='mkdir -p'
@@ -34,10 +34,15 @@ alias resource='[ -f ~/.bashrc ] && source ~/.bashrc'
 alias ..='cd ..'
 
 # Prints each `PATH` entry on a separate line.
-alias printpath='echo $PATH | tr -s ":" "\n"'
+alias path='echo $PATH | tr -s ":" "\n"'
+
+# Prints the current Unix timestamp.
+alias unixtime='date +%s'
 
 # Prints your local ip address.
-alias printip='curl --silent ipinfo.io | jq --raw-output ".ip"'
+alias ip='curl --silent ipconfig.io/json | jq --raw-output ".ip"'
+
+alias loc='curl --silent ipconfig.io/json | jq --monochrome-output "{lat: .latitude, lon: .longitude}"'
 
 # Define macOS-only aliases.
 if is_macos ; then
@@ -50,5 +55,7 @@ if is_macos ; then
 
     # Toggle dark mode.
     alias toggledark='osascript -e "tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode"'
-fi
 
+    # Print URLs for each tab in Safari.
+    alias safaritabs='osascript -e '\''tell application "Safari" to get URL of every tab of every window'\'' | tr "," "\n" | sed "s/^[[:space:]]*//"'
+fi

@@ -1,0 +1,18 @@
+font-size = 18
+font-family = Cascadia Code
+
+cursor-style = block
+cursor-style-blink = true
+
+shell-integration = bash
+shell-integration-features = no-cursor
+
+theme = light:Atom One Light, dark: Atom One Dark
+
+macos-option-as-alt = true
+right-click-action = copy-or-paste
+quit-after-last-window-closed = true
+
+tab-inherit-working-directory = false
+split-inherit-working-directory = false
+window-inherit-working-directory = false

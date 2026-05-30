@@ -1,5 +1,5 @@
 --plain
---paging=always
+--paging=auto
 --theme="auto:system"
 --theme-dark="Solarized (dark)"
 --theme-light="Solarized (light)"

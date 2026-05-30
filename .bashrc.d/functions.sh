@@ -63,15 +63,20 @@ git() {
   command "$git_bin" "$@"
 }
 
-_conda_wrap() {
-  if ! which micromamba > /dev/null 2>&1 ; then
+conda() {
+  if ! command -v micromamba >/dev/null 2>&1; then
     echo "${FUNCNAME[0]}: conda: command not found." >&2
-    return 1
+    return 127
   fi
 
   if [ -z "$CONDA_DEFAULT_ENV" ] ; then
     eval "$(micromamba shell hook --shell "$(basename "${SHELL}")")"
     micromamba activate
+  else
+    micromamba "$@"
+  fi
+}
+
     return
   fi
 
@@ -90,9 +95,9 @@ unity()
 
 json() {
   if [ -t 0 ] && [ "$#" -gt 0 ]; then
-    jq . "$@" | $PAGER
+    jq --color-output . "$@" | $PAGER
   else
-    jq "$@" | $PAGER
+    jq --color-output "$@" | $PAGER
   fi
 }
 

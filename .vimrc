@@ -225,6 +225,24 @@ nnoremap <expr> gh ':help '.expand('<cword>').'<cr>'
 nnoremap <silent> <leader>q :confirm quit<cr>
 nnoremap <silent> <leader>; :edit.<cr>
 
+" Move with {alt,cmd}+{left,right}.
+nnoremap <esc>b b
+nnoremap <esc>f w
+nnoremap  0
+nnoremap  $
+
+" Move with {alt,cmd}+{left,right}.
+inoremap <esc>b <c-o>b
+inoremap <esc>f <c-o>w
+inoremap  <c-o>0
+inoremap  <c-o>$
+
+" Delete word with ctrl+del.
+inoremap <c-bs> <c-w>
+
+" Delete word with alt+del.
+inoremap <a-bs> <c-w>
+
 nnoremap <tab> >>
 nnoremap <s-tab> <<
 vnoremap <tab> >gv
@@ -239,13 +257,8 @@ function! MapCtrlForwardSlash()
         call test_mswin_event('set_keycode_trans_strategy', {'strategy': 'experimental'})
     endif
 
-    if IsWindows() || IsMacos()
-        nnoremap <c-/> :Commentary<cr>
-        vnoremap <c-/> :Commentary<cr>
-    else " Linux.
-        nnoremap <c-_> :Commentary<cr>
-        vnoremap <c-_> :Commentary<cr>
-    endif
+    nnoremap ¯ :Commentary<cr>
+    vnoremap ¯ :Commentary<cr>
 endfunction
 
 " ===============

@@ -19,6 +19,8 @@ _darcs
 \#.*\#       # emacs autosave files
 
 ^/README.*
+^/AGENTS.*
+^/CLAUDE.*
 ^/LICENSE.*
 ^/COPYING
 
@@ -28,4 +30,3 @@ _darcs
 .*\.swp
 .*\.DS_STORE
 Makefile
-

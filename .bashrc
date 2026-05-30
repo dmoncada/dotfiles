@@ -28,6 +28,7 @@ path_prepend "${BREW_PREFIX}/opt/coreutils/libexec/gnubin"
 path_prepend "${BREW_PREFIX}/opt/findutils/libexec/gnubin"
 path_prepend "${BREW_PREFIX}/opt/make/libexec/gnubin"
 path_prepend "${BREW_PREFIX}/opt/curl/bin"
+path_prepend "${HOME}/.local/bin"
 
 # Load cargo.
 [ -f ~/.cargo/env ] && source ~/.cargo/env
@@ -41,8 +42,10 @@ which fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
 # Set `vim` as the default editor.
 export EDITOR=vim
 
+export LESS="--raw-control-chars --chop-long-lines --ignore-case --no-init --quit-on-intr --quit-if-one-screen"
+
 # Set `less` as the default pager.
-export PAGER="less --RAW-CONTROL-CHARS --chop-long-lines --quit-if-one-screen"
+export PAGER=less
 
 # Use `bat` as the pager for `man`.
 export MANPAGER="sh -c 'col -bx | bat --language=man'"
@@ -60,4 +63,4 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Cycle through files with tab/shift + tab.
 # See: https://superuser.com/a/59198
 [[ $- = *i* ]] && bind TAB:menu-complete
-bind '"\e[Z":menu-complete-backward'
+# bind '"\e[Z":menu-complete-backward'

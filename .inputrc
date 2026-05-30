@@ -5,15 +5,36 @@ set bell-style none
 set completion-ignore-case on
 set completion-map-case on
 set editing-mode vi
-# set show-mode-in-prompt on
 
 $if mode=vi
   # Display mode indicator chars. in white.
-  set vi-ins-mode-string "\1\e[0m\2+\1\e[0m\2 "
-  set vi-cmd-mode-string "\1\e[0m\2:\1\e[0m\2 "
+  # set vi-ins-mode-string "+ "
+  # set vi-cmd-mode-string ": "
 
-  # Clear screen in insert mode.
+  set keymap vi-command
+  "\eb": backward-word
+  "\ef": forward-word
+  "\C-a": beginning-of-line
+  "\C-e": end-of-line
+
   set keymap vi-insert
-  "\C-l": clear-screen
-$endif
+  "\eb": backward-word
+  "\ef": forward-word
+  "\C-a": beginning-of-line
+  "\C-e": end-of-line
 
+  # Delete line with cmd+del.
+  "\C-u": backward-kill-word
+
+  # Delete word with alt+del.
+  "\e\177": backward-kill-word
+
+  # Delete word with ctrl+del.
+  "\C-h": backward-kill-word
+
+  # Clear screen with ctrl+l
+  "\C-l": clear-screen
+
+  # Cycle through files with tab/shift+tab.
+  "\e[Z": menu-complete-backward
+$endif
