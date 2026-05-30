@@ -77,22 +77,6 @@ conda() {
   fi
 }
 
-    return
-  fi
-
-  micromamba "$@"
-}
-alias conda=_conda_wrap
-
-unity()
-{
-  # TODO:
-  #
-  # PROJECTS="$(pwsh -NoLogo -NoProfile -Command "@(Get-UnityProjectInstance -BasePath '$(pwd)' -Recurse) | ForEach-Object { \$_.Path }")"
-
-  pwsh -NoLogo -NoProfile -Command "Start-UnityEditor"
-}
-
 json() {
   if [ -t 0 ] && [ "$#" -gt 0 ]; then
     jq --color-output . "$@" | $PAGER
